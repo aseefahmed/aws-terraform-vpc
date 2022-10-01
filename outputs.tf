@@ -34,8 +34,3 @@ output "nat_public_ip" {
   description = "List of public Elastic IPs created for AWS NAT Gateway"
   value       = aws_nat_gateway.aws_ng.public_ip
 }
-
-
-output "sandbox_id" {
-  value = local.sandbox_id
-}

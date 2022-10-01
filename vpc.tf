@@ -21,6 +21,11 @@ resource "aws_subnet" "public_subnets" {
   cidr_block              = element(var.vpc_public_subnets, count.index)
   availability_zone       = element(var.vpc_availability_zones, count.index)
 
+  tags = merge(
+    {
+      "Name" = "private-subnet-${element(var.vpc_availability_zones, count.index)}"
+    }
+  )
 
 }
 
@@ -34,9 +39,8 @@ resource "aws_subnet" "private_subnets" {
 
   tags = merge(
     {
-      "Name" = "${var.environment}-${var.vpc_name}-private-subnets-${element(var.vpc_availability_zones, count.index)}-${count.index}-${local.sandbox_id}"
-    },
-    local.common_tags
+      "Name" = "private-subnet-${element(var.vpc_availability_zones, count.index)}"
+    }
   )
 
 }
@@ -47,9 +51,8 @@ resource "aws_internet_gateway" "aws_igw" {
 
   tags = merge(
     {
-      "Name" = "${var.environment}-${var.vpc_name}-${local.sandbox_id}-igw"
-    },
-    local.common_tags
+      "Name" = "${var.environment}-${var.vpc_name}-igw"
+    }
   )
 
 }
@@ -61,9 +64,8 @@ resource "aws_eip" "elastic_ip" {
 
   tags = merge(
     {
-      "Name" = "${var.environment}-${var.vpc_name}-${local.sandbox_id}-nat-eip"
-    },
-    local.common_tags
+      "Name" = "${var.environment}-${var.vpc_name}-nat-gw"
+    }
   )
 
 }
@@ -75,9 +77,8 @@ resource "aws_nat_gateway" "aws_ng" {
 
   tags = merge(
     {
-      "Name" = "${var.environment}-${var.vpc_name}-${local.sandbox_id}-nat-gw"
-    },
-    local.common_tags
+      "Name" = "${var.environment}-${var.vpc_name}-nat-gw"
+    }
   )
 }
 
@@ -93,9 +94,8 @@ resource "aws_route_table" "aws_public_route" {
 
   tags = merge(
     {
-      "Name" = "${var.environment}-${var.vpc_name}-${local.sandbox_id}-public-route"
-    },
-    local.common_tags
+      "Name" = "${var.environment}-${var.vpc_name}-public-route"
+    }
   )
 
 }
@@ -111,9 +111,8 @@ resource "aws_route_table" "aws_private_route" {
 
   tags = merge(
     {
-      "Name" = "${var.environment}-${var.vpc_name}-${local.sandbox_id}-private-route"
-    },
-    local.common_tags
+      "Name" = "${var.environment}-${var.vpc_name}-private-route"
+    }
   )
 }
 
